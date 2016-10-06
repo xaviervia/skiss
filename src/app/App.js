@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import getReactTree from './ReactTree'
-import TreeView from './TreeView'
-import Edit from './Edit'
+import getReactTree from 'components/ReactTree'
+import TreeView from 'components/TreeView'
+import Edit from 'components/Edit'
 import dictionary from './dictionary'
 import {expandSelected, node} from './selectors'
 

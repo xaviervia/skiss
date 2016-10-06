@@ -1,6 +1,6 @@
 import React from 'react'
 import {mapObjIndexed, values} from 'ramda'
-import asCode from './asCode'
+import asCode from 'lib/asCode'
 
 export default (dictionary) => {
   const node = ({type, props, children}, index) => {
