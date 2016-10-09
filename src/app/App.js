@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import getReactTree from 'components/ReactTree'
 import TreeView from 'components/TreeView'
-import Edit from 'components/Edit'
+import Add from 'components/Add'
 import dictionary from './dictionary'
-import {expandSelected, node} from './selectors'
+import getPropTypesFromDictionary from 'lib/getPropTypesFromDictionary'
+import defaultPropTypesDictionary from 'lib/defaultPropTypesDictionary'
 
 const ReactTree = getReactTree(dictionary)
 
@@ -30,7 +31,7 @@ export default (push, states) => class App extends Component {
             <TreeView
               tree={tree}
               onSelect={(selected) => push({
-                type: 'UPDATE_SELECTED',
+                type: 'selection/UPDATE',
                 payload: selected
               })}
               selected={selected}
@@ -42,17 +43,24 @@ export default (push, states) => class App extends Component {
           </td>
 
           <td>
-            <Edit
-              onAdd={() => push({
-                type: 'ADD_CHILD'
+            <Add
+              type={add.type}
+              props={add.props}
+              propTypesDictionary={{
+                ...getPropTypesFromDictionary(dictionary),
+                ...defaultPropTypesDictionary
+              }}
+              onType={(type) => push({
+                type: 'add/UPDATE_TYPE',
+                payload: type
               })}
-              onEdit={(path, value) => push({
-                type: 'EDIT_DATA',
-                payload: {path, value}
+              onUpdate={(prop, value) => push({
+                type: 'add/UPDATE_PROP',
+                payload: { [prop]: value }
               })}
-              add={add}
-              edit={node(selected, tree)}
-              selectedPath={expandSelected(selected)}
+              onSubmit={() => push({
+                type: 'add/NEW_CHILD'
+              })}
             />
           </td>
         </tr>

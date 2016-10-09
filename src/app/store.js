@@ -1,4 +1,4 @@
-import {keys, lensPath, set} from 'ramda'
+import {keys, set} from 'ramda'
 import {selectedPath, node} from './selectors'
 
 export const initialState = {
@@ -58,20 +58,35 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case 'UPDATE_SELECTED':
+    case 'selection/UPDATE':
       return {
         ...state,
         selected: action.payload
       }
 
-    case 'EDIT_DATA':
-      return set(
-        lensPath(action.payload.path),
-        action.payload.value,
-        state
-      )
+    case 'add/UPDATE_TYPE':
+      // NOTE: It could also keep a "cache" of props set for a component type
+      return {
+        ...state,
+        add: {
+          type: action.payload,
+          props: {}
+        }
+      }
 
-    case 'ADD_CHILD':
+    case 'add/UPDATE_PROP':
+      return {
+        ...state,
+        add: {
+          ...state.add,
+          props: {
+            ...state.add.props,
+            ...action.payload
+          }
+        }
+      }
+
+    case 'add/NEW_CHILD':
       const currentNode = node(state.selected, state.tree)
 
       return {
