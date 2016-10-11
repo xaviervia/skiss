@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import getReactTree from 'components/ReactTree'
 import TreeView from 'components/TreeView'
 import Add from 'components/Add'
-import dictionary from './dictionary'
+import dictionary from 'dictionary'
 import getPropTypesFromDictionary from 'lib/getPropTypesFromDictionary'
 import defaultPropTypesDictionary from 'lib/defaultPropTypesDictionary'
 

@@ -4,7 +4,7 @@ import {render} from 'react-dom'
 import {mapObjIndexed} from 'ramda'
 import Editor from 'components/Editor'
 
-const {default: dictionary} = require('app/dictionary')
+const {default: dictionary} = require('dictionary')
 
 const propTypesDictionary = mapObjIndexed(
   (component) => component.propTypes && introspect(component.propTypes),
