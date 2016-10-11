@@ -33,11 +33,15 @@ webpackJsonp([0],{
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _wireSaveToLocalStorage = __webpack_require__(595);
+	var _wireKeepAReference = __webpack_require__(595);
+	
+	var _wireKeepAReference2 = _interopRequireDefault(_wireKeepAReference);
+	
+	var _wireSaveToLocalStorage = __webpack_require__(596);
 	
 	var _wireSaveToLocalStorage2 = _interopRequireDefault(_wireSaveToLocalStorage);
 	
-	var _store = __webpack_require__(596);
+	var _store = __webpack_require__(597);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -51,6 +55,7 @@ webpackJsonp([0],{
 	
 	var App = (0, _App2.default)(push, states);
 	
+	(0, _wireKeepAReference2.default)(push, states);
 	(0, _wireSaveToLocalStorage2.default)(push, states);
 	
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -1331,7 +1336,16 @@ webpackJsonp([0],{
 	                type: 'add/NEW_CHILD'
 	              });
 	            }
-	          })
+	          }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: function onClick() {
+	                return push({
+	                  type: 'edit/REMOVE'
+	                });
+	              } },
+	            'DELETE'
+	          )
 	        )
 	      );
 	    };
@@ -1500,8 +1514,6 @@ webpackJsonp([0],{
 	  var onChange = _ref.onChange;
 	  var type = _ref.type;
 	  var props = _ref.props;
-	
-	  console.log(propTypesDictionary);
 	
 	  return _react2.default.createElement(
 	    'div',
@@ -4907,6 +4919,27 @@ webpackJsonp([0],{
 	var _flyd = __webpack_require__(178);
 	
 	exports.default = function (push, states) {
+	  (0, _flyd.on)(function (state) {
+	    window.states = window.states || [];
+	    window.states.push(state);
+	    window.state = state;
+	  }, states);
+	};
+
+/***/ },
+
+/***/ 596:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _flyd = __webpack_require__(178);
+	
+	exports.default = function (push, states) {
 	  if (window.localStorage.getItem('skiss.selected')) {
 	    push({
 	      type: 'save/LOAD',
@@ -4927,7 +4960,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 596:
+/***/ 597:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5011,11 +5044,16 @@ webpackJsonp([0],{
 	      });
 	
 	    case 'edit/UPDATE':
-	
 	      return _extends({}, state, {
 	        tree: (0, _ramda.set)((0, _selectors.selectedPath)(state.selected), _extends({}, currentNode, {
 	          props: _extends({}, currentNode.props, action.payload)
 	        }), state.tree)
+	      });
+	
+	    case 'edit/REMOVE':
+	      return _extends({}, state, {
+	        selected: state.selected.slice(0, state.selected.length - 1),
+	        tree: (0, _ramda.set)((0, _selectors.selectedPath)(state.selected), { type: undefined }, state.tree)
 	      });
 	
 	    case 'add/UPDATE_TYPE':
@@ -5054,4 +5092,4 @@ webpackJsonp([0],{
 /***/ }
 
 });
-//# sourceMappingURL=index-b857f9b5d4e8bcdf270d.js.map
+//# sourceMappingURL=index-2ead9424d666f8cd7527.js.map
