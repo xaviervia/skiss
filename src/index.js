@@ -4,6 +4,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import {scan, stream} from 'flyd'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import wireApp from 'app/App'
+import wireKeepAReference from 'app/wireKeepAReference'
 import wireSaveToLocalStorage from 'app/wireSaveToLocalStorage'
 import {initialState, reducer} from 'app/store'
 
@@ -20,6 +21,7 @@ const App = wireApp(
   states
 )
 
+wireKeepAReference(push, states)
 wireSaveToLocalStorage(push, states)
 
 render(

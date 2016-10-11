@@ -68,7 +68,6 @@ export const reducer = (state, action) => {
       }
 
     case 'edit/UPDATE':
-
       return {
         ...state,
         tree: set(
@@ -80,6 +79,17 @@ export const reducer = (state, action) => {
               ...action.payload
             }
           },
+          state.tree
+        )
+      }
+
+    case 'edit/REMOVE':
+      return {
+        ...state,
+        selected: state.selected.slice(0, state.selected.length - 1),
+        tree: set(
+          selectedPath(state.selected),
+          { type: undefined },
           state.tree
         )
       }
