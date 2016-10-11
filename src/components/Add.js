@@ -1,14 +1,11 @@
 import React from 'react'
-import Editor from './Editor'
 import {keys, map} from 'ramda'
 
 export default function Add ({
   type,
-  props,
-  propTypesDictionary,
   onType,
-  onUpdate,
-  onSubmit
+  onSubmit,
+  propTypesDictionary
 }) {
   return <div>
     <h2>Add</h2>
@@ -24,12 +21,6 @@ export default function Add ({
         keys(propTypesDictionary)
       )}
     </select>
-
-    <Editor
-      onChange={onUpdate}
-      props={props}
-      propTypes={propTypesDictionary[type]}
-    />
 
     <button onClick={onSubmit}>ADD</button>
   </div>
