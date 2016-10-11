@@ -3,12 +3,12 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(593);
+	module.exports = __webpack_require__(596);
 
 
 /***/ },
 
-/***/ 593:
+/***/ 596:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,19 +17,19 @@ webpackJsonp([1],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _patchReactProptypesAddIntrospection = __webpack_require__(589);
+	var _patchReactProptypesAddIntrospection = __webpack_require__(534);
 	
 	var _reactDom = __webpack_require__(35);
 	
 	var _ramda = __webpack_require__(307);
 	
-	var _Editor = __webpack_require__(366);
+	var _Editor = __webpack_require__(311);
 	
 	var _Editor2 = _interopRequireDefault(_Editor);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var _require = __webpack_require__(370);
+	var _require = __webpack_require__(315);
 	
 	var dictionary = _require.default;
 	
@@ -60,4 +60,4 @@ webpackJsonp([1],{
 /***/ }
 
 });
-//# sourceMappingURL=playground-4d9b99c0bb60fb12ed53.js.map
+//# sourceMappingURL=playground-fbcf8a87341bdafaf955.js.map

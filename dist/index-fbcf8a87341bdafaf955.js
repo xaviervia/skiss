@@ -33,7 +33,7 @@ webpackJsonp([0],{
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _store = __webpack_require__(591);
+	var _store = __webpack_require__(595);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1178,29 +1178,43 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ReactTree = __webpack_require__(306);
-	
-	var _ReactTree2 = _interopRequireDefault(_ReactTree);
-	
-	var _TreeView = __webpack_require__(364);
+	var _TreeView = __webpack_require__(306);
 	
 	var _TreeView2 = _interopRequireDefault(_TreeView);
 	
-	var _Add = __webpack_require__(365);
+	var _Add = __webpack_require__(310);
 	
 	var _Add2 = _interopRequireDefault(_Add);
 	
-	var _dictionary = __webpack_require__(370);
+	var _Edit = __webpack_require__(314);
+	
+	var _Edit2 = _interopRequireDefault(_Edit);
+	
+	var _dictionary = __webpack_require__(315);
 	
 	var _dictionary2 = _interopRequireDefault(_dictionary);
 	
-	var _getPropTypesFromDictionary = __webpack_require__(588);
+	var _getPropTypesFromDictionary = __webpack_require__(533);
 	
 	var _getPropTypesFromDictionary2 = _interopRequireDefault(_getPropTypesFromDictionary);
 	
-	var _defaultPropTypesDictionary = __webpack_require__(590);
+	var _defaultPropTypesDictionary = __webpack_require__(535);
 	
 	var _defaultPropTypesDictionary2 = _interopRequireDefault(_defaultPropTypesDictionary);
+	
+	var _asCode = __webpack_require__(536);
+	
+	var _asCode2 = _interopRequireDefault(_asCode);
+	
+	var _buildTree = __webpack_require__(592);
+	
+	var _buildTree2 = _interopRequireDefault(_buildTree);
+	
+	var _selectors = __webpack_require__(593);
+	
+	var _styles = __webpack_require__(594);
+	
+	var _styles2 = _interopRequireDefault(_styles);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1214,7 +1228,7 @@ webpackJsonp([0],{
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
-	var ReactTree = (0, _ReactTree2.default)(_dictionary2.default);
+	var propTypesDictionary = _extends({}, (0, _getPropTypesFromDictionary2.default)(_dictionary2.default), _defaultPropTypesDictionary2.default);
 	
 	exports.default = function (push, states) {
 	  return function (_Component) {
@@ -1245,62 +1259,78 @@ webpackJsonp([0],{
 	      var tree = _state$app.tree;
 	      var selected = _state$app.selected;
 	
+	      var nodeTree = (0, _buildTree2.default)(_dictionary2.default)(tree);
+	      var currentNode = (0, _selectors.node)(selected, tree);
 	
 	      return _react2.default.createElement(
-	        'table',
-	        { style: { width: '100%' } },
+	        'div',
+	        null,
 	        _react2.default.createElement(
-	          'tbody',
-	          null,
+	          'section',
+	          {
+	            id: 'tree-view',
+	            className: _styles2.default.App_TreeView },
+	          _react2.default.createElement(_TreeView2.default, {
+	            tree: tree,
+	            onSelect: function onSelect(selected) {
+	              return push({
+	                type: 'selection/UPDATE',
+	                payload: selected
+	              });
+	            },
+	            selected: selected
+	          }),
 	          _react2.default.createElement(
-	            'tr',
-	            null,
-	            _react2.default.createElement(
-	              'td',
-	              { style: { verticalAlign: 'top' } },
-	              _react2.default.createElement(_TreeView2.default, {
-	                tree: tree,
-	                onSelect: function onSelect(selected) {
-	                  return push({
-	                    type: 'selection/UPDATE',
-	                    payload: selected
-	                  });
-	                },
-	                selected: selected
-	              })
-	            ),
-	            _react2.default.createElement(
-	              'td',
-	              { style: { verticalAlign: 'top' } },
-	              _react2.default.createElement(ReactTree, { tree: tree })
-	            ),
-	            _react2.default.createElement(
-	              'td',
-	              { style: { verticalAlign: 'top' } },
-	              _react2.default.createElement(_Add2.default, {
-	                type: add.type,
-	                props: add.props,
-	                propTypesDictionary: _extends({}, (0, _getPropTypesFromDictionary2.default)(_dictionary2.default), _defaultPropTypesDictionary2.default),
-	                onType: function onType(type) {
-	                  return push({
-	                    type: 'add/UPDATE_TYPE',
-	                    payload: type
-	                  });
-	                },
-	                onUpdate: function onUpdate(prop, value) {
-	                  return push({
-	                    type: 'add/UPDATE_PROP',
-	                    payload: _defineProperty({}, prop, value)
-	                  });
-	                },
-	                onSubmit: function onSubmit() {
-	                  return push({
-	                    type: 'add/NEW_CHILD'
-	                  });
-	                }
-	              })
-	            )
+	            'pre',
+	            { className: _styles2.default.App_Code },
+	            (0, _asCode2.default)(nodeTree)
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'section',
+	          {
+	            id: 'react-tree',
+	            className: _styles2.default.App_ReactTree },
+	          nodeTree
+	        ),
+	        _react2.default.createElement(
+	          'section',
+	          {
+	            id: 'edit',
+	            className: _styles2.default.App_Edit },
+	          _react2.default.createElement(_Edit2.default, {
+	            onChange: function onChange(prop, value) {
+	              return push({
+	                type: 'edit/UPDATE',
+	                payload: _defineProperty({}, prop, value)
+	              });
+	            },
+	            type: currentNode.type,
+	            props: currentNode.props,
+	            propTypesDictionary: propTypesDictionary
+	          }),
+	          _react2.default.createElement(_Add2.default, {
+	            type: add.type,
+	            props: add.props,
+	            propTypesDictionary: propTypesDictionary,
+	            onType: function onType(type) {
+	              return push({
+	                type: 'add/UPDATE_TYPE',
+	                payload: type
+	              });
+	            },
+	            onUpdate: function onUpdate(prop, value) {
+	              return push({
+	                type: 'add/UPDATE_PROP',
+	                payload: _defineProperty({}, prop, value)
+	              });
+	            },
+	            onSubmit: function onSubmit() {
+	              return push({
+	                type: 'add/NEW_CHILD'
+	              });
+	            }
+	          })
 	        )
 	      );
 	    };
@@ -1319,8 +1349,7 @@ webpackJsonp([0],{
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	exports.default = TreeView;
 	
 	var _react = __webpack_require__(2);
 	
@@ -1328,79 +1357,229 @@ webpackJsonp([0],{
 	
 	var _ramda = __webpack_require__(307);
 	
-	var _asCode = __webpack_require__(308);
+	var _styles = __webpack_require__(308);
 	
-	var _asCode2 = _interopRequireDefault(_asCode);
+	var _styles2 = _interopRequireDefault(_styles);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	exports.default = function (dictionary) {
-	  var node = function node(_ref, index) {
-	    var type = _ref.type;
-	    var props = _ref.props;
-	    var children = _ref.children;
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
-	    if (dictionary[type]) {
-	      var Type = dictionary[type];
-	      return _react2.default.createElement(
-	        Type,
-	        _extends({ key: index }, props),
-	        children && (0, _ramda.values)((0, _ramda.mapObjIndexed)(node, children))
-	      );
-	    }
+	function TreeView(_ref) {
+	  var tree = _ref.tree;
+	  var onSelect = _ref.onSelect;
+	  var selected = _ref.selected;
 	
-	    switch (type) {
-	      case 'main':
-	        return _react2.default.createElement(
-	          'main',
-	          _extends({ key: index }, props),
-	          children && (0, _ramda.values)((0, _ramda.mapObjIndexed)(node, children))
-	        );
+	  return _react2.default.createElement(
+	    'ul',
+	    { className: _styles2.default.TreeView },
+	    node(tree, [], { onSelect: onSelect, selected: selected })
+	  );
+	}
 	
-	      case 'div':
-	        return _react2.default.createElement(
-	          'div',
-	          _extends({ key: index }, props),
-	          children && (0, _ramda.values)((0, _ramda.mapObjIndexed)(node, children))
-	        );
+	var node = function node(_ref2, path, _ref3) {
+	  var type = _ref2.type;
+	  var children = _ref2.children;
+	  var onSelect = _ref3.onSelect;
+	  var selected = _ref3.selected;
 	
-	      case 'a':
-	        return _react2.default.createElement(
-	          'a',
-	          _extends({ key: index }, props),
-	          children && (0, _ramda.values)((0, _ramda.mapObjIndexed)(node, children))
-	        );
+	  return _react2.default.createElement(
+	    'li',
+	    {
+	      key: path,
+	      id: 'tree-' + path.join('.'),
+	      onClick: function onClick(e) {
+	        e.stopPropagation();
 	
-	      case 'text':
-	        return props.content;
-	    }
-	  };
-	
-	  return function ReactTree(_ref2) {
-	    var tree = _ref2.tree;
-	
-	    var nodeTree = node(tree);
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      nodeTree,
-	      _react2.default.createElement('hr', null),
-	      _react2.default.createElement(
-	        'code',
-	        null,
-	        _react2.default.createElement(
-	          'pre',
-	          null,
-	          (0, _asCode2.default)(nodeTree)
-	        )
-	      )
-	    );
-	  };
+	        onSelect(path);
+	      },
+	      className: _styles2.default.TreeView_Node + ' ' + ((0, _ramda.equals)(path, selected) ? _styles2.default.selected : '') },
+	    type,
+	    children && _react2.default.createElement(
+	      'ul',
+	      { className: _styles2.default.TreeView },
+	      (0, _ramda.values)((0, _ramda.mapObjIndexed)(function (x, i) {
+	        return node(x, [].concat(_toConsumableArray(path), [i]), { onSelect: onSelect, selected: selected });
+	      }, children))
+	    )
+	  );
 	};
 
 /***/ },
 
 /***/ 308:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"TreeView":"components-TreeView-TreeView-1wV4Q","TreeView_Node":"components-TreeView-TreeView_Node-3FibS","selected":"components-TreeView-selected-3jvHA"};
+
+/***/ },
+
+/***/ 310:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = Add;
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Editor = __webpack_require__(311);
+	
+	var _Editor2 = _interopRequireDefault(_Editor);
+	
+	var _ramda = __webpack_require__(307);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function Add(_ref) {
+	  var type = _ref.type;
+	  var props = _ref.props;
+	  var propTypesDictionary = _ref.propTypesDictionary;
+	  var onType = _ref.onType;
+	  var onUpdate = _ref.onUpdate;
+	  var onSubmit = _ref.onSubmit;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'h2',
+	      null,
+	      'Add'
+	    ),
+	    _react2.default.createElement(
+	      'select',
+	      {
+	        onChange: function onChange(e) {
+	          return onType(e.target.value);
+	        },
+	        value: type },
+	      (0, _ramda.map)(function (key) {
+	        return _react2.default.createElement(
+	          'option',
+	          {
+	            key: key,
+	            value: key },
+	          key
+	        );
+	      }, (0, _ramda.keys)(propTypesDictionary))
+	    ),
+	    _react2.default.createElement(_Editor2.default, {
+	      onChange: onUpdate,
+	      props: props,
+	      propTypes: propTypesDictionary[type]
+	    }),
+	    _react2.default.createElement(
+	      'button',
+	      { onClick: onSubmit },
+	      'ADD'
+	    )
+	  );
+	}
+
+/***/ },
+
+/***/ 314:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = Edit;
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Editor = __webpack_require__(311);
+	
+	var _Editor2 = _interopRequireDefault(_Editor);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function Edit(_ref) {
+	  var propTypesDictionary = _ref.propTypesDictionary;
+	  var onChange = _ref.onChange;
+	  var type = _ref.type;
+	  var props = _ref.props;
+	
+	  console.log(propTypesDictionary);
+	
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'h2',
+	      null,
+	      'Edit'
+	    ),
+	    _react2.default.createElement(
+	      'h3',
+	      null,
+	      type
+	    ),
+	    _react2.default.createElement(_Editor2.default, {
+	      onChange: onChange,
+	      props: props,
+	      propTypes: propTypesDictionary[type]
+	    })
+	  );
+	}
+
+/***/ },
+
+/***/ 533:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _ramda = __webpack_require__(307);
+	
+	var _patchReactProptypesAddIntrospection = __webpack_require__(534);
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	exports.default = function (dictionary) {
+	  return (0, _ramda.compose)((0, _ramda.reduce)(function (propTypesDictionary, key) {
+	    return _extends({}, propTypesDictionary, _defineProperty({}, key, (0, _patchReactProptypesAddIntrospection.introspect)(dictionary[key].propTypes)));
+	  }, {}), (0, _ramda.filter)(function (key) {
+	    return dictionary[key].propTypes != null;
+	  }), _ramda.keys)(dictionary);
+	};
+
+/***/ },
+
+/***/ 535:
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  text: {
+	    content: { type: 'string' }
+	  }
+	};
+
+/***/ },
+
+/***/ 536:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1411,27 +1590,27 @@ webpackJsonp([0],{
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
-	var _flip = __webpack_require__(309);
+	var _flip = __webpack_require__(537);
 	
 	var _flip2 = _interopRequireDefault(_flip);
 	
-	var _map = __webpack_require__(312);
+	var _map = __webpack_require__(540);
 	
 	var _map2 = _interopRequireDefault(_map);
 	
-	var _compose = __webpack_require__(327);
+	var _compose = __webpack_require__(555);
 	
 	var _compose2 = _interopRequireDefault(_compose);
 	
-	var _times = __webpack_require__(336);
+	var _times = __webpack_require__(564);
 	
 	var _times2 = _interopRequireDefault(_times);
 	
-	var _reactElementToJsxString = __webpack_require__(337);
+	var _reactElementToJsxString = __webpack_require__(565);
 	
 	var _reactElementToJsxString2 = _interopRequireDefault(_reactElementToJsxString);
 	
-	var _stringifyObject = __webpack_require__(359);
+	var _stringifyObject = __webpack_require__(587);
 	
 	var _stringifyObject2 = _interopRequireDefault(_stringifyObject);
 	
@@ -1555,12 +1734,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 309:
+/***/ 537:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry1 = __webpack_require__(181);
-	var _slice = __webpack_require__(310);
-	var curry = __webpack_require__(311);
+	var _slice = __webpack_require__(538);
+	var curry = __webpack_require__(539);
 	
 	
 	/**
@@ -1594,7 +1773,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 310:
+/***/ 538:
 /***/ function(module, exports) {
 
 	/**
@@ -1633,7 +1812,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 311:
+/***/ 539:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry1 = __webpack_require__(181);
@@ -1688,16 +1867,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 312:
+/***/ 540:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry2 = __webpack_require__(183);
-	var _dispatchable = __webpack_require__(313);
-	var _map = __webpack_require__(316);
-	var _reduce = __webpack_require__(317);
-	var _xmap = __webpack_require__(322);
+	var _dispatchable = __webpack_require__(541);
+	var _map = __webpack_require__(544);
+	var _reduce = __webpack_require__(545);
+	var _xmap = __webpack_require__(550);
 	var curryN = __webpack_require__(179);
-	var keys = __webpack_require__(324);
+	var keys = __webpack_require__(552);
 	
 	
 	/**
@@ -1751,12 +1930,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 313:
+/***/ 541:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _isArray = __webpack_require__(314);
-	var _isTransformer = __webpack_require__(315);
-	var _slice = __webpack_require__(310);
+	var _isArray = __webpack_require__(542);
+	var _isTransformer = __webpack_require__(543);
+	var _slice = __webpack_require__(538);
 	
 	
 	/**
@@ -1797,7 +1976,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 314:
+/***/ 542:
 /***/ function(module, exports) {
 
 	/**
@@ -1821,7 +2000,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 315:
+/***/ 543:
 /***/ function(module, exports) {
 
 	module.exports = function _isTransformer(obj) {
@@ -1831,7 +2010,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 316:
+/***/ 544:
 /***/ function(module, exports) {
 
 	module.exports = function _map(fn, functor) {
@@ -1848,12 +2027,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 317:
+/***/ 545:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _xwrap = __webpack_require__(318);
-	var bind = __webpack_require__(319);
-	var isArrayLike = __webpack_require__(320);
+	var _xwrap = __webpack_require__(546);
+	var bind = __webpack_require__(547);
+	var isArrayLike = __webpack_require__(548);
 	
 	
 	module.exports = (function() {
@@ -1912,7 +2091,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 318:
+/***/ 546:
 /***/ function(module, exports) {
 
 	module.exports = (function() {
@@ -1933,7 +2112,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 319:
+/***/ 547:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _arity = __webpack_require__(180);
@@ -1970,12 +2149,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 320:
+/***/ 548:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry1 = __webpack_require__(181);
-	var _isArray = __webpack_require__(314);
-	var _isString = __webpack_require__(321);
+	var _isArray = __webpack_require__(542);
+	var _isString = __webpack_require__(549);
 	
 	
 	/**
@@ -2013,7 +2192,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 321:
+/***/ 549:
 /***/ function(module, exports) {
 
 	module.exports = function _isString(x) {
@@ -2023,11 +2202,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 322:
+/***/ 550:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry2 = __webpack_require__(183);
-	var _xfBase = __webpack_require__(323);
+	var _xfBase = __webpack_require__(551);
 	
 	
 	module.exports = (function() {
@@ -2047,7 +2226,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 323:
+/***/ 551:
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2062,12 +2241,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 324:
+/***/ 552:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry1 = __webpack_require__(181);
-	var _has = __webpack_require__(325);
-	var _isArguments = __webpack_require__(326);
+	var _has = __webpack_require__(553);
+	var _isArguments = __webpack_require__(554);
 	
 	
 	/**
@@ -2142,7 +2321,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 325:
+/***/ 553:
 /***/ function(module, exports) {
 
 	module.exports = function _has(prop, obj) {
@@ -2152,10 +2331,10 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 326:
+/***/ 554:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _has = __webpack_require__(325);
+	var _has = __webpack_require__(553);
 	
 	
 	module.exports = (function() {
@@ -2168,11 +2347,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 327:
+/***/ 555:
 /***/ function(module, exports, __webpack_require__) {
 
-	var pipe = __webpack_require__(328);
-	var reverse = __webpack_require__(335);
+	var pipe = __webpack_require__(556);
+	var reverse = __webpack_require__(563);
 	
 	
 	/**
@@ -2205,13 +2384,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 328:
+/***/ 556:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _arity = __webpack_require__(180);
-	var _pipe = __webpack_require__(329);
-	var reduce = __webpack_require__(330);
-	var tail = __webpack_require__(332);
+	var _pipe = __webpack_require__(557);
+	var reduce = __webpack_require__(558);
+	var tail = __webpack_require__(560);
 	
 	
 	/**
@@ -2247,7 +2426,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 329:
+/***/ 557:
 /***/ function(module, exports) {
 
 	module.exports = function _pipe(f, g) {
@@ -2259,11 +2438,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 330:
+/***/ 558:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _curry3 = __webpack_require__(331);
-	var _reduce = __webpack_require__(317);
+	var _curry3 = __webpack_require__(559);
+	var _reduce = __webpack_require__(545);
 	
 	
 	/**
@@ -2304,7 +2483,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 331:
+/***/ 559:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry1 = __webpack_require__(181);
@@ -2349,11 +2528,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 332:
+/***/ 560:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _checkForMethod = __webpack_require__(333);
-	var slice = __webpack_require__(334);
+	var _checkForMethod = __webpack_require__(561);
+	var slice = __webpack_require__(562);
 	
 	
 	/**
@@ -2388,11 +2567,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 333:
+/***/ 561:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _isArray = __webpack_require__(314);
-	var _slice = __webpack_require__(310);
+	var _isArray = __webpack_require__(542);
+	var _slice = __webpack_require__(538);
 	
 	
 	/**
@@ -2421,11 +2600,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 334:
+/***/ 562:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _checkForMethod = __webpack_require__(333);
-	var _curry3 = __webpack_require__(331);
+	var _checkForMethod = __webpack_require__(561);
+	var _curry3 = __webpack_require__(559);
 	
 	
 	/**
@@ -2459,12 +2638,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 335:
+/***/ 563:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry1 = __webpack_require__(181);
-	var _isString = __webpack_require__(321);
-	var _slice = __webpack_require__(310);
+	var _isString = __webpack_require__(549);
+	var _slice = __webpack_require__(538);
 	
 	
 	/**
@@ -2499,7 +2678,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 336:
+/***/ 564:
 /***/ function(module, exports, __webpack_require__) {
 
 	var _curry2 = __webpack_require__(183);
@@ -2543,7 +2722,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 337:
+/***/ 565:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2552,7 +2731,7 @@ webpackJsonp([0],{
 	  value: true
 	});
 	
-	var _fill2 = __webpack_require__(338);
+	var _fill2 = __webpack_require__(566);
 	
 	var _fill3 = _interopRequireDefault(_fill2);
 	
@@ -2564,25 +2743,25 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _collapseWhiteSpace = __webpack_require__(354);
+	var _collapseWhiteSpace = __webpack_require__(582);
 	
 	var _collapseWhiteSpace2 = _interopRequireDefault(_collapseWhiteSpace);
 	
-	var _reactAddonsTestUtils = __webpack_require__(355);
+	var _reactAddonsTestUtils = __webpack_require__(583);
 	
-	var _isPlainObject = __webpack_require__(357);
+	var _isPlainObject = __webpack_require__(585);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _stringifyObject = __webpack_require__(359);
+	var _stringifyObject = __webpack_require__(587);
 	
 	var _stringifyObject2 = _interopRequireDefault(_stringifyObject);
 	
-	var _sortobject = __webpack_require__(362);
+	var _sortobject = __webpack_require__(590);
 	
 	var _sortobject2 = _interopRequireDefault(_sortobject);
 	
-	var _traverse = __webpack_require__(363);
+	var _traverse = __webpack_require__(591);
 	
 	var _traverse2 = _interopRequireDefault(_traverse);
 	
@@ -2814,11 +2993,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 338:
+/***/ 566:
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseFill = __webpack_require__(339),
-	    isIterateeCall = __webpack_require__(348);
+	var baseFill = __webpack_require__(567),
+	    isIterateeCall = __webpack_require__(576);
 	
 	/**
 	 * Fills elements of `array` with `value` from `start` up to, but not
@@ -2866,11 +3045,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 339:
+/***/ 567:
 /***/ function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(340),
-	    toLength = __webpack_require__(346);
+	var toInteger = __webpack_require__(568),
+	    toLength = __webpack_require__(574);
 	
 	/**
 	 * The base implementation of `_.fill` without an iteratee call guard.
@@ -2905,10 +3084,10 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 340:
+/***/ 568:
 /***/ function(module, exports, __webpack_require__) {
 
-	var toFinite = __webpack_require__(341);
+	var toFinite = __webpack_require__(569);
 	
 	/**
 	 * Converts `value` to an integer.
@@ -2948,10 +3127,10 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 341:
+/***/ 569:
 /***/ function(module, exports, __webpack_require__) {
 
-	var toNumber = __webpack_require__(342);
+	var toNumber = __webpack_require__(570);
 	
 	/** Used as references for various `Number` constants. */
 	var INFINITY = 1 / 0,
@@ -2997,11 +3176,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 342:
+/***/ 570:
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(343),
-	    isSymbol = __webpack_require__(344);
+	var isObject = __webpack_require__(571),
+	    isSymbol = __webpack_require__(572);
 	
 	/** Used as references for various `Number` constants. */
 	var NAN = 0 / 0;
@@ -3070,7 +3249,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 343:
+/***/ 571:
 /***/ function(module, exports) {
 
 	/**
@@ -3108,10 +3287,10 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 344:
+/***/ 572:
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(345);
+	var isObjectLike = __webpack_require__(573);
 	
 	/** `Object#toString` result references. */
 	var symbolTag = '[object Symbol]';
@@ -3153,7 +3332,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 345:
+/***/ 573:
 /***/ function(module, exports) {
 
 	/**
@@ -3189,11 +3368,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 346:
+/***/ 574:
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseClamp = __webpack_require__(347),
-	    toInteger = __webpack_require__(340);
+	var baseClamp = __webpack_require__(575),
+	    toInteger = __webpack_require__(568);
 	
 	/** Used as references for the maximum length and index of an array. */
 	var MAX_ARRAY_LENGTH = 4294967295;
@@ -3234,7 +3413,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 347:
+/***/ 575:
 /***/ function(module, exports) {
 
 	/**
@@ -3263,13 +3442,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 348:
+/***/ 576:
 /***/ function(module, exports, __webpack_require__) {
 
-	var eq = __webpack_require__(349),
-	    isArrayLike = __webpack_require__(350),
-	    isIndex = __webpack_require__(353),
-	    isObject = __webpack_require__(343);
+	var eq = __webpack_require__(577),
+	    isArrayLike = __webpack_require__(578),
+	    isIndex = __webpack_require__(581),
+	    isObject = __webpack_require__(571);
 	
 	/**
 	 * Checks if the given arguments are from an iteratee call.
@@ -3300,7 +3479,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 349:
+/***/ 577:
 /***/ function(module, exports) {
 
 	/**
@@ -3344,11 +3523,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 350:
+/***/ 578:
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(351),
-	    isLength = __webpack_require__(352);
+	var isFunction = __webpack_require__(579),
+	    isLength = __webpack_require__(580);
 	
 	/**
 	 * Checks if `value` is array-like. A value is considered array-like if it's
@@ -3384,10 +3563,10 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 351:
+/***/ 579:
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(343);
+	var isObject = __webpack_require__(571);
 	
 	/** `Object#toString` result references. */
 	var funcTag = '[object Function]',
@@ -3433,7 +3612,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 352:
+/***/ 580:
 /***/ function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -3475,7 +3654,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 353:
+/***/ 581:
 /***/ function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -3504,7 +3683,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 354:
+/***/ 582:
 /***/ function(module, exports) {
 
 	/**
@@ -3538,14 +3717,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 355:
+/***/ 583:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(356);
+	module.exports = __webpack_require__(584);
 
 /***/ },
 
-/***/ 356:
+/***/ 584:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4069,7 +4248,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 357:
+/***/ 585:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -4081,7 +4260,7 @@ webpackJsonp([0],{
 	
 	'use strict';
 	
-	var isObject = __webpack_require__(358);
+	var isObject = __webpack_require__(586);
 	
 	function isObjectObject(o) {
 	  return isObject(o) === true
@@ -4113,7 +4292,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 358:
+/***/ 586:
 /***/ function(module, exports) {
 
 	/*!
@@ -4133,12 +4312,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 359:
+/***/ 587:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var isRegexp = __webpack_require__(360);
-	var isPlainObj = __webpack_require__(361);
+	var isRegexp = __webpack_require__(588);
+	var isPlainObj = __webpack_require__(589);
 	
 	module.exports = function (val, opts, pad) {
 		var seen = [];
@@ -4253,7 +4432,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 360:
+/***/ 588:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4264,7 +4443,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 361:
+/***/ 589:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4278,7 +4457,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 362:
+/***/ 590:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4327,7 +4506,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 363:
+/***/ 591:
 /***/ function(module, exports) {
 
 	var traverse = module.exports = function (obj) {
@@ -4648,134 +4827,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 364:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = TreeView;
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _ramda = __webpack_require__(307);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function TreeView(_ref) {
-	  var tree = _ref.tree;
-	  var onSelect = _ref.onSelect;
-	  var selected = _ref.selected;
-	
-	  return _react2.default.createElement(
-	    'ul',
-	    null,
-	    node(tree, [], { onSelect: onSelect, selected: selected })
-	  );
-	}
-	
-	var node = function node(_ref2, path, _ref3) {
-	  var type = _ref2.type;
-	  var children = _ref2.children;
-	  var onSelect = _ref3.onSelect;
-	  var selected = _ref3.selected;
-	
-	  return _react2.default.createElement(
-	    'li',
-	    {
-	      key: path,
-	      id: 'tree-' + path.join('.'),
-	      onClick: function onClick(e) {
-	        e.stopPropagation();
-	
-	        onSelect(path);
-	      },
-	      style: (0, _ramda.equals)(path, selected) ? { background: 'lightgray' } : undefined },
-	    type,
-	    children && _react2.default.createElement(
-	      'ul',
-	      null,
-	      (0, _ramda.values)((0, _ramda.mapObjIndexed)(function (x, i) {
-	        return node(x, [].concat(_toConsumableArray(path), [i]), { onSelect: onSelect, selected: selected });
-	      }, children))
-	    )
-	  );
-	};
-
-/***/ },
-
-/***/ 365:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = Add;
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Editor = __webpack_require__(366);
-	
-	var _Editor2 = _interopRequireDefault(_Editor);
-	
-	var _ramda = __webpack_require__(307);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function Add(_ref) {
-	  var type = _ref.type;
-	  var props = _ref.props;
-	  var propTypesDictionary = _ref.propTypesDictionary;
-	  var onType = _ref.onType;
-	  var onUpdate = _ref.onUpdate;
-	  var onSubmit = _ref.onSubmit;
-	
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'select',
-	      {
-	        onChange: function onChange(e) {
-	          return onType(e.target.value);
-	        },
-	        value: type },
-	      (0, _ramda.map)(function (key) {
-	        return _react2.default.createElement(
-	          'option',
-	          {
-	            key: key,
-	            value: key },
-	          key
-	        );
-	      }, (0, _ramda.keys)(propTypesDictionary))
-	    ),
-	    _react2.default.createElement(_Editor2.default, {
-	      onChange: onUpdate,
-	      props: props,
-	      propTypes: propTypesDictionary[type]
-	    }),
-	    _react2.default.createElement(
-	      'button',
-	      { onClick: onSubmit },
-	      'ADD'
-	    )
-	  );
-	}
-
-/***/ },
-
-/***/ 588:
+/***/ 592:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4786,39 +4838,74 @@ webpackJsonp([0],{
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _ramda = __webpack_require__(307);
 	
-	var _patchReactProptypesAddIntrospection = __webpack_require__(589);
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (dictionary) {
-	  return (0, _ramda.compose)((0, _ramda.reduce)(function (propTypesDictionary, key) {
-	    return _extends({}, propTypesDictionary, _defineProperty({}, key, (0, _patchReactProptypesAddIntrospection.introspect)(dictionary[key].propTypes)));
-	  }, {}), (0, _ramda.filter)(function (key) {
-	    return dictionary[key].propTypes != null;
-	  }), _ramda.keys)(dictionary);
+	  var node = function node(_ref, index) {
+	    var type = _ref.type;
+	    var props = _ref.props;
+	    var children = _ref.children;
+	
+	    if (dictionary[type]) {
+	      var Type = dictionary[type];
+	      return _react2.default.createElement(
+	        Type,
+	        _extends({ key: index }, props),
+	        children && (0, _ramda.values)((0, _ramda.mapObjIndexed)(node, children))
+	      );
+	    }
+	
+	    if (type === 'text') {
+	      return props.content;
+	    }
+	  };
+	
+	  return node;
 	};
 
 /***/ },
 
-/***/ 590:
-/***/ function(module, exports) {
+/***/ 593:
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = {
-	  text: {
-	    content: { type: 'string' }
-	  }
+	exports.node = exports.selectedPath = exports.expandSelected = undefined;
+	
+	var _ramda = __webpack_require__(307);
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	var expandSelected = exports.expandSelected = (0, _ramda.reduce)(function (a, x) {
+	  return [].concat(_toConsumableArray(a), ['children', x]);
+	}, []);
+	
+	var selectedPath = exports.selectedPath = (0, _ramda.compose)(_ramda.lensPath, expandSelected);
+	
+	var node = exports.node = function node(path, tree) {
+	  return (0, _ramda.view)(selectedPath(path), tree);
 	};
 
 /***/ },
 
-/***/ 591:
+/***/ 594:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"App_TreeView":"app-App_TreeView-26uYC","App_ReactTree":"app-App_ReactTree-21Ubv","App_Edit":"app-App_Edit-3dXDd","App_Code":"app-App_Code-3RURt"};
+
+/***/ },
+
+/***/ 595:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4832,7 +4919,7 @@ webpackJsonp([0],{
 	
 	var _ramda = __webpack_require__(307);
 	
-	var _selectors = __webpack_require__(592);
+	var _selectors = __webpack_require__(593);
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
@@ -4848,14 +4935,15 @@ webpackJsonp([0],{
 	
 	  tree: {
 	    type: 'main',
+	    props: {
+	      style: {
+	        padding: '20px'
+	      }
+	    },
+	
 	    children: {
 	      '0': {
 	        type: 'div',
-	        props: {
-	          style: {
-	            padding: '20px'
-	          }
-	        },
 	        children: {
 	          '0': {
 	            type: 'text',
@@ -4892,10 +4980,20 @@ webpackJsonp([0],{
 	};
 	
 	var reducer = exports.reducer = function reducer(state, action) {
+	  var currentNode = (0, _selectors.node)(state.selected, state.tree);
+	
 	  switch (action.type) {
 	    case 'selection/UPDATE':
 	      return _extends({}, state, {
 	        selected: action.payload
+	      });
+	
+	    case 'edit/UPDATE':
+	
+	      return _extends({}, state, {
+	        tree: (0, _ramda.set)((0, _selectors.selectedPath)(state.selected), _extends({}, currentNode, {
+	          props: _extends({}, currentNode.props, action.payload)
+	        }), state.tree)
 	      });
 	
 	    case 'add/UPDATE_TYPE':
@@ -4915,8 +5013,6 @@ webpackJsonp([0],{
 	      });
 	
 	    case 'add/NEW_CHILD':
-	      var currentNode = (0, _selectors.node)(state.selected, state.tree);
-	
 	      return _extends({}, state, {
 	        tree: (0, _ramda.set)((0, _selectors.selectedPath)(state.selected), _extends({}, currentNode, {
 	          children: currentNode.children ? _extends({}, currentNode.children, _defineProperty({}, '' + (0, _ramda.keys)(currentNode.children).length, state.add)) : {
@@ -4930,33 +5026,7 @@ webpackJsonp([0],{
 	  }
 	};
 
-/***/ },
-
-/***/ 592:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.node = exports.selectedPath = exports.expandSelected = undefined;
-	
-	var _ramda = __webpack_require__(307);
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	var expandSelected = exports.expandSelected = (0, _ramda.reduce)(function (a, x) {
-	  return [].concat(_toConsumableArray(a), ['children', x]);
-	}, []);
-	
-	var selectedPath = exports.selectedPath = (0, _ramda.compose)(_ramda.lensPath, expandSelected);
-	
-	var node = exports.node = function node(path, tree) {
-	  return (0, _ramda.view)(selectedPath(path), tree);
-	};
-
 /***/ }
 
 });
-//# sourceMappingURL=index-4d9b99c0bb60fb12ed53.js.map
+//# sourceMappingURL=index-fbcf8a87341bdafaf955.js.map

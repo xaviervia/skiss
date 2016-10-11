@@ -1,0 +1,55 @@
+.components-TreeView-TreeView-1wV4Q {
+  list-style: none;
+  margin: 0;
+  padding-left: 2rem;
+}
+
+.components-TreeView-TreeView_Node-3FibS {
+  cursor: pointer;
+  font-family: Cabin;
+  font-size: 1.2rem;
+}
+
+.components-TreeView-TreeView_Node-3FibS.components-TreeView-selected-3jvHA {
+  background: grey;
+}
+.app-App_TreeView-26uYC {
+  background: lightgrey;
+  border-right: .1rem solid grey;
+  display: block;
+  float: left;
+  height: 100vh;
+  margin-right: -.1rem;
+  position: relative;
+  width: 24rem;
+}
+
+.app-App_ReactTree-21Ubv {
+  display: block;
+  float: left;
+  width: calc(100vw - 48rem);
+}
+
+.app-App_Edit-3dXDd {
+  background: lightgrey;
+  border-left: .1rem solid grey;
+  display: block;
+  float: left;
+  height: 100vh;
+  margin-left: -.1rem;
+  overflow-y: scroll;
+  width: 24rem;
+}
+
+.app-App_Code-3RURt {
+  background: black;
+  bottom: 0;
+  color: green;
+  left: 0;
+  margin: 0;
+  padding: 2rem;
+  position: absolute;
+  width: calc(100% - 4rem);
+}
+
+/*# sourceMappingURL=index-fbcf8a87341bdafaf955-1.css.map*/
