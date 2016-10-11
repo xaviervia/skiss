@@ -126,6 +126,12 @@ export const reducer = (state, action) => {
         )
       }
 
+    case 'save/LOAD':
+      return {
+        ...state,
+        ...action.payload
+      }
+
     default:
       return state
   }
