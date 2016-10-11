@@ -27,7 +27,7 @@ export default (push, states) => class App extends Component {
     return <table style={{width: '100%'}}>
       <tbody>
         <tr>
-          <td>
+          <td style={{verticalAlign: 'top'}}>
             <TreeView
               tree={tree}
               onSelect={(selected) => push({
@@ -38,11 +38,11 @@ export default (push, states) => class App extends Component {
             />
           </td>
 
-          <td>
+          <td style={{verticalAlign: 'top'}}>
             <ReactTree tree={tree} />
           </td>
 
-          <td>
+          <td style={{verticalAlign: 'top'}}>
             <Add
               type={add.type}
               props={add.props}
