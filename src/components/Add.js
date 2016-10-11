@@ -11,6 +11,7 @@ export default function Add ({
   onSubmit
 }) {
   return <div>
+    <h2>Add</h2>
     <select
       onChange={(e) => onType(e.target.value)}
       value={type}>
