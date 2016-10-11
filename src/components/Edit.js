@@ -7,8 +7,6 @@ export default function Edit ({
   type,
   props
 }) {
-  console.log(propTypesDictionary)
-
   return <div>
     <h2>Edit</h2>
     <h3>{type}</h3>

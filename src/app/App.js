@@ -81,6 +81,12 @@ export default (push, states) => class App extends Component {
             type: 'add/NEW_CHILD'
           })}
         />
+
+        <button onClick={() => push({
+          type: 'edit/REMOVE'
+        })}>
+          DELETE
+        </button>
       </section>
     </div>
   }
