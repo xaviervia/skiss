@@ -72,15 +72,10 @@ export default (push, states) => class App extends Component {
 
         <Add
           type={add.type}
-          props={add.props}
           propTypesDictionary={propTypesDictionary}
           onType={(type) => push({
             type: 'add/UPDATE_TYPE',
             payload: type
-          })}
-          onUpdate={(prop, value) => push({
-            type: 'add/UPDATE_PROP',
-            payload: { [prop]: value }
           })}
           onSubmit={() => push({
             type: 'add/NEW_CHILD'
