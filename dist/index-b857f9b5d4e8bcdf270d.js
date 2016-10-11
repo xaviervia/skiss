@@ -1194,7 +1194,7 @@ webpackJsonp([0],{
 	
 	var _Add2 = _interopRequireDefault(_Add);
 	
-	var _Edit = __webpack_require__(314);
+	var _Edit = __webpack_require__(311);
 	
 	var _Edit2 = _interopRequireDefault(_Edit);
 	
@@ -1319,18 +1319,11 @@ webpackJsonp([0],{
 	          }),
 	          _react2.default.createElement(_Add2.default, {
 	            type: add.type,
-	            props: add.props,
 	            propTypesDictionary: propTypesDictionary,
 	            onType: function onType(type) {
 	              return push({
 	                type: 'add/UPDATE_TYPE',
 	                payload: type
-	              });
-	            },
-	            onUpdate: function onUpdate(prop, value) {
-	              return push({
-	                type: 'add/UPDATE_PROP',
-	                payload: _defineProperty({}, prop, value)
 	              });
 	            },
 	            onSubmit: function onSubmit() {
@@ -1437,21 +1430,15 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Editor = __webpack_require__(311);
-	
-	var _Editor2 = _interopRequireDefault(_Editor);
-	
 	var _ramda = __webpack_require__(307);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function Add(_ref) {
 	  var type = _ref.type;
-	  var props = _ref.props;
-	  var propTypesDictionary = _ref.propTypesDictionary;
 	  var onType = _ref.onType;
-	  var onUpdate = _ref.onUpdate;
 	  var onSubmit = _ref.onSubmit;
+	  var propTypesDictionary = _ref.propTypesDictionary;
 	
 	  return _react2.default.createElement(
 	    'div',
@@ -1478,11 +1465,6 @@ webpackJsonp([0],{
 	        );
 	      }, (0, _ramda.keys)(propTypesDictionary))
 	    ),
-	    _react2.default.createElement(_Editor2.default, {
-	      onChange: onUpdate,
-	      props: props,
-	      propTypes: propTypesDictionary[type]
-	    }),
 	    _react2.default.createElement(
 	      'button',
 	      { onClick: onSubmit },
@@ -1493,7 +1475,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 314:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1507,7 +1489,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Editor = __webpack_require__(311);
+	var _Editor = __webpack_require__(312);
 	
 	var _Editor2 = _interopRequireDefault(_Editor);
 	
@@ -5072,4 +5054,4 @@ webpackJsonp([0],{
 /***/ }
 
 });
-//# sourceMappingURL=index-4536101f51e1e447458a.js.map
+//# sourceMappingURL=index-b857f9b5d4e8bcdf270d.js.map

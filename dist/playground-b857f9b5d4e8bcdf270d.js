@@ -23,7 +23,7 @@ webpackJsonp([1],{
 	
 	var _ramda = __webpack_require__(307);
 	
-	var _Editor = __webpack_require__(311);
+	var _Editor = __webpack_require__(312);
 	
 	var _Editor2 = _interopRequireDefault(_Editor);
 	
@@ -60,4 +60,4 @@ webpackJsonp([1],{
 /***/ }
 
 });
-//# sourceMappingURL=playground-4536101f51e1e447458a.js.map
+//# sourceMappingURL=playground-b857f9b5d4e8bcdf270d.js.map
