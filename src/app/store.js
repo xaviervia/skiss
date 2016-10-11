@@ -13,14 +13,15 @@ export const initialState = {
 
   tree: {
     type: 'main',
+    props: {
+      style: {
+        padding: '20px'
+      }
+    },
+
     children: {
       '0': {
         type: 'div',
-        props: {
-          style: {
-            padding: '20px'
-          }
-        },
         children: {
           '0': {
             type: 'text',
