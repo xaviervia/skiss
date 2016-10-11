@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
-import getReactTree from 'components/ReactTree'
 import TreeView from 'components/TreeView'
 import Add from 'components/Add'
 import dictionary from 'dictionary'
 import getPropTypesFromDictionary from 'lib/getPropTypesFromDictionary'
 import defaultPropTypesDictionary from 'lib/defaultPropTypesDictionary'
+import asCode from 'lib/asCode'
+import buildTree from 'lib/buildTree'
 import styles from './styles.css'
-
-const ReactTree = getReactTree(dictionary)
 
 export default (push, states) => class App extends Component {
   constructor () {
@@ -24,6 +23,7 @@ export default (push, states) => class App extends Component {
 
   render () {
     const {add, tree, selected} = this.state.app
+    const nodeTree = buildTree(dictionary)(tree)
 
     return <div>
       <section
@@ -37,12 +37,16 @@ export default (push, states) => class App extends Component {
           })}
           selected={selected}
         />
+
+        <pre className={styles.App_Code}>
+          {asCode(nodeTree)}
+        </pre>
       </section>
 
       <section
         id='react-tree'
         className={styles.App_ReactTree}>
-        <ReactTree tree={tree} />
+        {nodeTree}
       </section>
 
       <section
