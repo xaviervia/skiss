@@ -33,7 +33,11 @@ webpackJsonp([0],{
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _store = __webpack_require__(595);
+	var _wireSaveToLocalStorage = __webpack_require__(595);
+	
+	var _wireSaveToLocalStorage2 = _interopRequireDefault(_wireSaveToLocalStorage);
+	
+	var _store = __webpack_require__(596);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -43,7 +47,11 @@ webpackJsonp([0],{
 	
 	var push = (0, _flyd.stream)();
 	
-	var App = (0, _App2.default)(push, (0, _flyd.scan)(_store.reducer, _store.initialState, push));
+	var states = (0, _flyd.scan)(_store.reducer, _store.initialState, push);
+	
+	var App = (0, _App2.default)(push, states);
+	
+	(0, _wireSaveToLocalStorage2.default)(push, states);
 	
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _MuiThemeProvider2.default,
@@ -4913,6 +4921,38 @@ webpackJsonp([0],{
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _flyd = __webpack_require__(178);
+	
+	exports.default = function (push, states) {
+	  if (window.localStorage.getItem('skiss.selected')) {
+	    push({
+	      type: 'save/LOAD',
+	      payload: {
+	        add: JSON.parse(window.localStorage.getItem('skiss.add')),
+	        selected: JSON.parse(window.localStorage.getItem('skiss.selected')),
+	        tree: JSON.parse(window.localStorage.getItem('skiss.tree'))
+	      }
+	    });
+	  }
+	
+	  (0, _flyd.on)(function (state) {
+	    window.localStorage.setItem('skiss.selected', JSON.stringify(state.selected));
+	    window.localStorage.setItem('skiss.add', JSON.stringify(state.add));
+	    window.localStorage.setItem('skiss.tree', JSON.stringify(state.tree));
+	  }, states);
+	};
+
+/***/ },
+
+/***/ 596:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.reducer = exports.initialState = undefined;
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -5021,6 +5061,9 @@ webpackJsonp([0],{
 	        }), state.tree)
 	      });
 	
+	    case 'save/LOAD':
+	      return _extends({}, state, action.payload);
+	
 	    default:
 	      return state;
 	  }
@@ -5029,4 +5072,4 @@ webpackJsonp([0],{
 /***/ }
 
 });
-//# sourceMappingURL=index-fbcf8a87341bdafaf955.js.map
+//# sourceMappingURL=index-4536101f51e1e447458a.js.map
