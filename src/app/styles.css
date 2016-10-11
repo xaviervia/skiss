@@ -1,0 +1,25 @@
+.App_TreeView {
+  background: lightgrey;
+  border-right: .1rem solid grey;
+  display: block;
+  float: left;
+  height: 100vh;
+  margin-right: -.1rem;
+  width: 24rem;
+}
+
+.App_ReactTree {
+  display: block;
+  float: left;
+  width: calc(100vw - 48rem);
+}
+
+.App_Edit {
+  background: lightgrey;
+  border-left: .1rem solid grey;
+  display: block;
+  float: left;
+  height: 100vh;
+  margin-left: -.1rem;
+  width: 24rem;
+}
