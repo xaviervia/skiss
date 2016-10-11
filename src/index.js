@@ -4,6 +4,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import {scan, stream} from 'flyd'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import wireApp from 'app/App'
+import wireSaveToLocalStorage from 'app/wireSaveToLocalStorage'
 import {initialState, reducer} from 'app/store'
 
 // Needed for onTouchTap
@@ -12,10 +13,14 @@ injectTapEventPlugin()
 
 const push = stream()
 
+const states = scan(reducer, initialState, push)
+
 const App = wireApp(
   push,
-  scan(reducer, initialState, push)
+  states
 )
+
+wireSaveToLocalStorage(push, states)
 
 render(
   <MuiThemeProvider>
