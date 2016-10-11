@@ -1,0 +1,15 @@
+.TreeView {
+  list-style: none;
+  margin: 0;
+  padding-left: 2rem;
+}
+
+.TreeView_Node {
+  cursor: pointer;
+  font-family: Cabin;
+  font-size: 1.2rem;
+}
+
+.TreeView_Node.selected {
+  background: grey;
+}

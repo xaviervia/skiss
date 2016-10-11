@@ -13,14 +13,15 @@ export const initialState = {
 
   tree: {
     type: 'main',
+    props: {
+      style: {
+        padding: '20px'
+      }
+    },
+
     children: {
       '0': {
         type: 'div',
-        props: {
-          style: {
-            padding: '20px'
-          }
-        },
         children: {
           '0': {
             type: 'text',
@@ -57,11 +58,30 @@ export const initialState = {
 }
 
 export const reducer = (state, action) => {
+  const currentNode = node(state.selected, state.tree)
+
   switch (action.type) {
     case 'selection/UPDATE':
       return {
         ...state,
         selected: action.payload
+      }
+
+    case 'edit/UPDATE':
+
+      return {
+        ...state,
+        tree: set(
+          selectedPath(state.selected),
+          {
+            ...currentNode,
+            props: {
+              ...currentNode.props,
+              ...action.payload
+            }
+          },
+          state.tree
+        )
       }
 
     case 'add/UPDATE_TYPE':
@@ -87,8 +107,6 @@ export const reducer = (state, action) => {
       }
 
     case 'add/NEW_CHILD':
-      const currentNode = node(state.selected, state.tree)
-
       return {
         ...state,
         tree: set(

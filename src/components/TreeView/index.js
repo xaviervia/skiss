@@ -1,8 +1,9 @@
 import React from 'react'
 import {equals, mapObjIndexed, values} from 'ramda'
+import styles from './styles.css'
 
 export default function TreeView ({tree, onSelect, selected}) {
-  return <ul>
+  return <ul className={styles.TreeView}>
     {node(tree, [], {onSelect, selected})}
   </ul>
 }
@@ -16,10 +17,10 @@ const node = ({type, children}, path, {onSelect, selected}) => {
 
       onSelect(path)
     }}
-    style={equals(path, selected) ? {background: 'lightgray'} : undefined}>
+    className={styles.TreeView_Node + ' ' + (equals(path, selected) ? styles.selected : '')}>
     {type}
 
-    {children && <ul>
+    {children && <ul className={styles.TreeView}>
       {values(mapObjIndexed(
         (x, i) => node(x, [...path, i], {onSelect, selected}),
         children

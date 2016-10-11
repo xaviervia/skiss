@@ -3,8 +3,6 @@ import Field from 'components/Field'
 import {map, mapObjIndexed, values} from 'ramda'
 
 export default function Editor ({ props, propTypes, onChange }) {
-  console.log('TYPES', propTypes)
-
   return <div>
     {values(mapObjIndexed(
       ({type, structure, isRequired}, prop) => {
@@ -28,7 +26,7 @@ export default function Editor ({ props, propTypes, onChange }) {
               <input
                 type='checkbox'
                 checked={props[prop] || false}
-                onChange={(e) => onChange(prop, e.target.value === 'on')}
+                onChange={(e) => onChange(prop, !props[prop])}
               />
             </Field>
 

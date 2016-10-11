@@ -1,12 +1,19 @@
 import React, {Component} from 'react'
-import getReactTree from 'components/ReactTree'
 import TreeView from 'components/TreeView'
 import Add from 'components/Add'
+import Edit from 'components/Edit'
 import dictionary from 'dictionary'
 import getPropTypesFromDictionary from 'lib/getPropTypesFromDictionary'
 import defaultPropTypesDictionary from 'lib/defaultPropTypesDictionary'
+import asCode from 'lib/asCode'
+import buildTree from 'lib/buildTree'
+import {node} from './selectors'
+import styles from './styles.css'
 
-const ReactTree = getReactTree(dictionary)
+const propTypesDictionary = {
+  ...getPropTypesFromDictionary(dictionary),
+  ...defaultPropTypesDictionary
+}
 
 export default (push, states) => class App extends Component {
   constructor () {
@@ -23,48 +30,63 @@ export default (push, states) => class App extends Component {
 
   render () {
     const {add, tree, selected} = this.state.app
+    const nodeTree = buildTree(dictionary)(tree)
+    const currentNode = node(selected, tree)
 
-    return <table style={{width: '100%'}}>
-      <tbody>
-        <tr>
-          <td style={{verticalAlign: 'top'}}>
-            <TreeView
-              tree={tree}
-              onSelect={(selected) => push({
-                type: 'selection/UPDATE',
-                payload: selected
-              })}
-              selected={selected}
-            />
-          </td>
+    return <div>
+      <section
+        id='tree-view'
+        className={styles.App_TreeView}>
+        <TreeView
+          tree={tree}
+          onSelect={(selected) => push({
+            type: 'selection/UPDATE',
+            payload: selected
+          })}
+          selected={selected}
+        />
 
-          <td style={{verticalAlign: 'top'}}>
-            <ReactTree tree={tree} />
-          </td>
+        <pre className={styles.App_Code}>
+          {asCode(nodeTree)}
+        </pre>
+      </section>
 
-          <td style={{verticalAlign: 'top'}}>
-            <Add
-              type={add.type}
-              props={add.props}
-              propTypesDictionary={{
-                ...getPropTypesFromDictionary(dictionary),
-                ...defaultPropTypesDictionary
-              }}
-              onType={(type) => push({
-                type: 'add/UPDATE_TYPE',
-                payload: type
-              })}
-              onUpdate={(prop, value) => push({
-                type: 'add/UPDATE_PROP',
-                payload: { [prop]: value }
-              })}
-              onSubmit={() => push({
-                type: 'add/NEW_CHILD'
-              })}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <section
+        id='react-tree'
+        className={styles.App_ReactTree}>
+        {nodeTree}
+      </section>
+
+      <section
+        id='edit'
+        className={styles.App_Edit}>
+        <Edit
+          onChange={(prop, value) => push({
+            type: 'edit/UPDATE',
+            payload: { [prop]: value }
+          })}
+          type={currentNode.type}
+          props={currentNode.props}
+          propTypesDictionary={propTypesDictionary}
+        />
+
+        <Add
+          type={add.type}
+          props={add.props}
+          propTypesDictionary={propTypesDictionary}
+          onType={(type) => push({
+            type: 'add/UPDATE_TYPE',
+            payload: type
+          })}
+          onUpdate={(prop, value) => push({
+            type: 'add/UPDATE_PROP',
+            payload: { [prop]: value }
+          })}
+          onSubmit={() => push({
+            type: 'add/NEW_CHILD'
+          })}
+        />
+      </section>
+    </div>
   }
 }

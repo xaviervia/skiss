@@ -1,20 +1,22 @@
 import React from 'react'
-import {keys, map} from 'ramda'
+import Editor from 'components/Editor'
 
-export default function Edit ({ propTypesDictionary, onEdit, add }) {
+export default function Edit ({
+  propTypesDictionary,
+  onChange,
+  type,
+  props
+}) {
   console.log(propTypesDictionary)
 
   return <div>
-    <h2>Add</h2>
-    <select onChange=(e.)>
-      {map(
-        (key) => <option
-          key={key}
-          value={key}>
-          {key}
-        </option>,
-        keys(propTypesDictionary)
-      )}
-    </select>
+    <h2>Edit</h2>
+    <h3>{type}</h3>
+
+    <Editor
+      onChange={onChange}
+      props={props}
+      propTypes={propTypesDictionary[type]}
+    />
   </div>
 }
