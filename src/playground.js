@@ -1,36 +1,36 @@
-import React from 'react'
-import {introspect} from 'patch-react-proptypes-add-introspection'
-import {render} from 'react-dom'
-import {mapObjIndexed} from 'ramda'
-import Editor from 'components/Editor'
+import React, {PropTypes} from 'react'
+import asCode from 'lib/asCode'
+import syntheticComponent from 'lib/syntheticComponent'
+import { render } from 'react-dom'
 
-const {default: dictionary} = require('dictionary')
+const comp = <p style={{background: 'red', width: '10px', height: '10px'}}>
+  <a href='http://lelele'>
+    <span>aaasdfadf</span>
+  </a>
+</p>
 
-const propTypesDictionary = mapObjIndexed(
-  (component) => component.propTypes && introspect(component.propTypes),
-  dictionary
-)
+const MyP = syntheticComponent(comp, { children: PropTypes.node }, 'MyP')
 
-const data = {
-  type: 'FlatButton',
-  props: {
-    href: 'http://google.com',
-    primary: true
-  },
-  children: [
-    {
-      type: 'text',
-      props: {
-        content: 'Google'
-      }
-    }
-  ]
-}
+const renderedMyP = <MyP><blockquote>whats up</blockquote></MyP>
 
 render(
-  <Editor
-    data={data}
-    propTypesDictionary={propTypesDictionary}
-  />,
+  <div>
+    <MyP title='text' />
+    <MyP><blockquote>whats up</blockquote></MyP>
+    <hr />
+    <pre>
+      {asCode(<MyP />)}
+    </pre>
+
+    <hr />
+    <pre>
+      {asCode(renderedMyP)}
+    </pre>
+
+    <hr />
+    <pre>
+      {asCode(comp)}
+    </pre>
+  </div>,
   document.getElementById('skiss')
 )

@@ -1,12 +1,18 @@
 import React, {Component} from 'react'
+
 import TreeView from 'components/TreeView'
 import Add from 'components/Add'
 import Edit from 'components/Edit'
+import Canvas from 'components/Canvas'
+import Code from 'components/Code'
+
 import dictionary from 'dictionary'
 import getPropTypesFromDictionary from 'lib/getPropTypesFromDictionary'
 import defaultPropTypesDictionary from 'lib/defaultPropTypesDictionary'
-import asCode from 'lib/asCode'
 import buildTree from 'lib/buildTree'
+
+import {mapObjIndexed, values} from 'ramda'
+
 import {node} from './selectors'
 import styles from './styles.css'
 
@@ -29,32 +35,44 @@ export default (push, states) => class App extends Component {
   }
 
   render () {
-    const {add, tree, selected} = this.state.app
-    const nodeTree = buildTree(dictionary)(tree)
-    const currentNode = node(selected, tree)
+    const {add, trees, selected} = this.state.app
+    const nodeTrees = mapObjIndexed((tree) => buildTree(dictionary)(tree), trees)
+    const currentNode = node(selected, trees)
 
     return <div>
       <section
         id='tree-view'
         className={styles.App_TreeView}>
-        <TreeView
-          tree={tree}
-          onSelect={(selected) => push({
-            type: 'selection/UPDATE',
-            payload: selected
-          })}
-          selected={selected}
-        />
+        {values(mapObjIndexed(
+          (tree, name) => <div key={name}>
+            <h2>{name}</h2>
+            <TreeView
+              tree={tree}
+              onSelect={(selected) => push({
+                type: 'selection/UPDATE',
+                payload: [name, ...selected]
+              })}
+              selected={selected[0] === name ? selected.slice(1) : undefined}
+            />
+          </div>,
+          trees
+        ))}
 
-        <pre className={styles.App_Code}>
-          {asCode(nodeTree)}
-        </pre>
+        <Code nodeTrees={nodeTrees} />
       </section>
 
       <section
         id='react-tree'
         className={styles.App_ReactTree}>
-        {nodeTree}
+        {values(mapObjIndexed(
+          (nodeTree, name) => <div key={name}>
+            <h2>{name}</h2>
+            <Canvas>
+              {nodeTree}
+            </Canvas>
+          </div>,
+          nodeTrees
+        ))}
       </section>
 
       <section

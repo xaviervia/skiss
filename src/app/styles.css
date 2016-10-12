@@ -5,13 +5,17 @@
   float: left;
   height: 100vh;
   margin-right: -.1rem;
+  overflow-y: scroll;
   position: relative;
   width: 24rem;
 }
 
 .App_ReactTree {
+  background: lightgrey;
   display: block;
   float: left;
+  height: 100vh;
+  overflow-y: scroll;
   width: calc(100vw - 48rem);
 }
 
@@ -24,15 +28,4 @@
   margin-left: -.1rem;
   overflow-y: scroll;
   width: 24rem;
-}
-
-.App_Code {
-  background: black;
-  bottom: 0;
-  color: green;
-  left: 0;
-  margin: 0;
-  padding: 2rem;
-  position: absolute;
-  width: calc(100% - 4rem);
 }

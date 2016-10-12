@@ -11,5 +11,6 @@
 }
 
 .TreeView_Node.selected {
-  background: grey;
+  color: white;
+  background: black;
 }

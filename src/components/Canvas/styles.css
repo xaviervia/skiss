@@ -1,0 +1,6 @@
+.Canvas {
+  background: white;
+  border: .1rem solid black;
+  box-shadow: grey 0 0 1rem;
+  margin: 2rem;
+}
