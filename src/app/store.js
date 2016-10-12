@@ -2,7 +2,8 @@ import {keys, set} from 'ramda'
 import {selectedPath, node} from './selectors'
 
 export const initialState = {
-  selected: [],
+  selected: ['App'],
+
   add: {
     type: 'FlatButton',
     props: {
@@ -11,46 +12,67 @@ export const initialState = {
     }
   },
 
-  tree: {
-    type: 'main',
-    props: {
-      style: {
-        padding: '20px'
+  trees: {
+    CustomButton: {
+      type: 'button',
+      props: {
+        style: {
+          padding: '10px',
+          background: 'pink'
+        }
+      },
+
+      children: {
+        '0': {
+          type: 'text',
+          props: {
+            content: 'Pink Button'
+          }
+        }
       }
     },
 
-    children: {
-      '0': {
-        type: 'div',
-        children: {
-          '0': {
-            type: 'text',
-            props: {
-              content: 'Text node'
-            }
-          },
-          '1': {
-            type: 'a',
-            props: {
-              href: 'http://google.com'
+    App: {
+      type: 'main',
+      props: {
+        style: {
+          padding: '20px'
+        }
+      },
+
+      children: {
+        '0': {
+          type: 'div',
+          children: {
+            '0': {
+              type: 'text',
+              props: {
+                content: 'Text node'
+              }
             },
-            children: {
-              '0': {
-                type: 'text',
-                props: {
-                  content: 'All'
+            '1': {
+              type: 'a',
+              props: {
+                href: 'http://google.com'
+              },
+              children: {
+                '0': {
+                  type: 'text',
+                  props: {
+                    content: 'All'
+                  }
                 }
               }
             }
           }
-        }
-      },
+        },
 
-      '1': {
-        type: 'RaisedButton',
-        props: {
-          label: 'Such Button, wow',
-          primary: true
+        '1': {
+          type: 'RaisedButton',
+          props: {
+            label: 'Such Button, wow',
+            primary: true
+          }
         }
       }
     }
@@ -58,7 +80,7 @@ export const initialState = {
 }
 
 export const reducer = (state, action) => {
-  const currentNode = node(state.selected, state.tree)
+  const currentNode = node(state.selected, state.trees)
 
   switch (action.type) {
     case 'selection/UPDATE':
@@ -70,7 +92,7 @@ export const reducer = (state, action) => {
     case 'edit/UPDATE':
       return {
         ...state,
-        tree: set(
+        trees: set(
           selectedPath(state.selected),
           {
             ...currentNode,
@@ -79,7 +101,7 @@ export const reducer = (state, action) => {
               ...action.payload
             }
           },
-          state.tree
+          state.trees
         )
       }
 
@@ -87,10 +109,10 @@ export const reducer = (state, action) => {
       return {
         ...state,
         selected: state.selected.slice(0, state.selected.length - 1),
-        tree: set(
+        trees: set(
           selectedPath(state.selected),
           { type: undefined },
-          state.tree
+          state.trees
         )
       }
 
@@ -119,7 +141,7 @@ export const reducer = (state, action) => {
     case 'add/NEW_CHILD':
       return {
         ...state,
-        tree: set(
+        trees: set(
           selectedPath(state.selected),
           {
             ...currentNode,
@@ -132,7 +154,7 @@ export const reducer = (state, action) => {
                 '0': state.add
               }
           },
-          state.tree
+          state.trees
         )
       }
 
